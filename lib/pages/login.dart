@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notes/controller/googleauth.dart';
 
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _LoginPageState createState() => _LoginPageState();
 }
 
@@ -61,6 +63,7 @@ vertical: 20),
             //calling a fn
             signInWithGoogle(context);
           },
+          // ignore: sort_child_properties_last
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -71,7 +74,7 @@ vertical: 20),
                   fontSize: 20,
                 )
               ),
-              SizedBox(
+              const SizedBox(
                 width:10,
               ),
               Image.asset('assets/images/google-login-icon.png',height:36.0,),
@@ -79,8 +82,8 @@ vertical: 20),
             ],
           ),
           style:ButtonStyle(
-            backgroundColor:MaterialStateProperty.all(Color.fromARGB(255, 181, 84, 116)
-            ),padding:MaterialStateProperty.all(EdgeInsets.symmetric(
+            backgroundColor:MaterialStateProperty.all(const Color.fromARGB(255, 181, 84, 116)
+            ),padding:MaterialStateProperty.all(const EdgeInsets.symmetric(
               vertical: 10,
             )) )
         ),

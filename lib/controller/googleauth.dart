@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import '../pages/home.dart';
 
 //creating instances:
@@ -62,5 +61,6 @@ Future<bool> signInWithGoogle(BuildContext context) async {
     // ignore: avoid_print
     print("Sign in not sucessful!");
   }
-  throw UnsupportedError('Not yet implemented');
+  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("yo login successful ;)")),);
+  return true;
 }
