@@ -94,6 +94,7 @@ class _AddNoteState extends State<AddNote> {
                   onChanged: (val) {
                     dis = val;
                   },
+                  maxLines:20,
                 ),
               )
             ],
