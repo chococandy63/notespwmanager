@@ -56,7 +56,12 @@ class _LoginPageState extends State<LoginPage> {
               //calling a fn
               //
               onPressed: () {
-               signInWithGoogle(context);
+                Navigator.of(context).push(
+          MaterialPageRoute(
+            builder:(context)=>HomePage(),
+          ),
+        );
+               //signInWithGoogle(context);
               },
 
               // ignore: sort_child_properties_last

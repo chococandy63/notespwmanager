@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:notes/pages/notepage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,12 +18,19 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: Column(
           children: [
+            const SizedBox(
+              height: 300,
+            ),
             Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 50),
               child: ElevatedButton(
                   onPressed: () {
-                    //calling a fn
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const NotesPage(),
+                      ),
+                    );
                   },
                   // ignore: sort_child_properties_last
                   child: Row(
@@ -34,7 +42,7 @@ class _HomePageState extends State<HomePage> {
                             fontSize: 20,
                           )),
                       const SizedBox(
-                        width: 10,
+                        width: 20,
                       ),
                       Image.asset(
                         'assets/images/notes.jpg',
@@ -52,7 +60,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 50),
               child: ElevatedButton(
                   onPressed: () {
                     //calling a fn
@@ -67,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                             fontSize: 20,
                           )),
                       const SizedBox(
-                        width: 10,
+                        width: 20,
                       ),
                       Image.asset(
                         'assets/images/password.png',
