@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:notes/pages/notepage.dart';
 
 class AddNote extends StatefulWidget {
@@ -18,88 +19,89 @@ class _AddNoteState extends State<AddNote> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(children: [
-          const SizedBox(
-            height: 50,
-          ),
-          Row(children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const NotesPage(),
-                  ),
-                );
-              },
-              style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(Colors.pinkAccent[100])),
-              child: const Icon(
-                Icons.arrow_back_ios_new_sharp,
-              ),
-            ),
+      resizeToAvoidBottomInset: false,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(children: [
             const SizedBox(
-              width: 250,
+              height: 50,
             ),
-            ElevatedButton(
-              onPressed: () {
-                add();
-              },
-              style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(Colors.pinkAccent[100]),
-                  padding: MaterialStateProperty.all(
-                    const EdgeInsets.symmetric(
-                      horizontal: 10.0,
-                      vertical: 8.0,
+            Row(children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const NotesPage(),
                     ),
-                  )),
-              child: const Text("SAVE"),
-            )
-          ]),
-          const SizedBox(
-            height: 20,
-          ),
-          Form(
-              child: Column(
-            children: [
-              TextFormField(
-                decoration: const InputDecoration.collapsed(hintText: "Title"),
-                style: const TextStyle(
-                  fontSize: 32.0,
-                  fontFamily: "mansalva",
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey,
-                ),
-                onChanged: (val) {
-                  title = val;
+                  );
                 },
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(Colors.pinkAccent[100])),
+                child: const Icon(
+                  Icons.arrow_back_ios_new_sharp,
+                ),
               ),
-              
-              Container(
-                //MediaQuery.of(context).size.height=0.75,
-                height:MediaQuery.of(context).size.height, //ERROR HERE
-                padding:const EdgeInsets.only(top:12.0),
-                child: TextFormField(
-                
-                  decoration:
-                      const InputDecoration.collapsed(hintText: "Description"),
-                  style: const TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: "mansalva",
+              const SizedBox(
+                width: 250,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  add();
+                },
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(Colors.pinkAccent[100]),
+                    padding: MaterialStateProperty.all(
+                      const EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: 8.0,
+                      ),
+                    )),
+                child: const Text("SAVE"),
+              )
+            ]),
+            const SizedBox(
+              height: 20,
+            ),
+            Form(
+                child: Column(
+              children: [
+                TextFormField(
+                 
+                  decoration: const InputDecoration.collapsed(hintText: "Title"),
+                  style: GoogleFonts.mansalva(
+                    fontSize: 32.0,
+                    fontWeight: FontWeight.bold,
                     color: Colors.grey,
                   ),
                   onChanged: (val) {
-                    dis = val;
+                    title = val;
                   },
-                  maxLines:20,
                 ),
-              )
-            ],
-          ))
-        ]),
+                Container(
+         
+                  height:MediaQuery.of(context).size.height*0.75, //ERROR HERE
+                  padding:const EdgeInsets.only(top:12.0),
+                  child: TextFormField(
+                  
+                    decoration:
+                        const InputDecoration.collapsed(hintText: "Description"),
+                    style: GoogleFonts.mansalva(
+                      fontSize: 20.0,
+                      color: Colors.grey,
+                    ),
+                    onChanged: (val) {
+                      dis = val;
+                    },
+                    maxLines:20,
+                  ),
+                )
+              ],
+            ))
+          ]),
+        ),
       ),
     );
   }

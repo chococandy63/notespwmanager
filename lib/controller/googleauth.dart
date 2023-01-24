@@ -11,6 +11,7 @@ GoogleSignIn googleSignIn = GoogleSignIn();
 FirebaseAuth auth = FirebaseAuth.instance;
 CollectionReference users = FirebaseFirestore.instance.collection('users');
 
+
 Future signInWithGoogle(BuildContext context) async {
   final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
   if (googleSignInAccount != null) {
@@ -57,3 +58,4 @@ Future signInWithGoogle(BuildContext context) async {
     );
   }
 }
+
