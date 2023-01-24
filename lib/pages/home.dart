@@ -2,7 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:notes/pages/login.dart';
 import 'package:notes/pages/notepage.dart';
+import 'package:notes/pages/passwordspage.dart';
+import 'package:notes/controller/googleauth.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,6 +15,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //creating a signout function to sign out from the current account
+  void _signOut() {
+    googleSignIn.signOut();
+    print("User Signed Out");
+    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const LoginPage(),
+                      ),
+                    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +33,20 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             const SizedBox(
-              height: 300,
+              height: 50,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 250),
+              child: ElevatedButton(
+                  onPressed: 
+                    _signOut,
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                          Color.fromARGB(255, 167, 76, 106))),
+                  child: const Text("Sign Out")),
+            ),
+            const SizedBox(
+              height: 200,
             ),
             Padding(
               padding:
@@ -63,7 +90,11 @@ class _HomePageState extends State<HomePage> {
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 50),
               child: ElevatedButton(
                   onPressed: () {
-                    //calling a fn
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const PasswordsPage(),
+                      ),
+                    );
                   },
                   // ignore: sort_child_properties_last
                   child: Row(
