@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -51,29 +52,8 @@ class _NotesPageState extends State<NotesPage> {
             color: Color.fromARGB(255, 92, 22, 45),
           ),
         ),
-        appBar: AppBar(
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.navigate_before),
-              tooltip: 'Previous page',
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const HomePage(),
-                  ),
-                );
-              },
-            ),
-          ],
-          title: Text(
-            'NOTES',
-            style: GoogleFonts.mansalva(
-              fontSize: 32,
-            ),
-          ),
-          elevation: 100.0,
-          backgroundColor: const Color.fromARGB(5, 22, 21, 21),
-        ),
+     
+        
         body: FutureBuilder<QuerySnapshot>(
           future: ref.get(),
           builder: (context, snapshot) {
