@@ -28,6 +28,14 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  bool page = true;
+
+  @override
+  void initState() {
+    page = true;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,12 +89,18 @@ class _HomePageState extends State<HomePage> {
                   fontSize: 17,
                 )),
             leading: const Icon(Icons.notes),
-            onTap: ()=>Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const NotesPage(),
-                      ),
-                    )
-          ),
+              // onTap: () => Navigator.of(context).push(
+              //       MaterialPageRoute(
+              //         builder: (context) => const NotesPage(),
+              //       ),
+              onTap: () {
+                setState(
+                  () {
+                    page = true;
+                  },
+                );
+                Navigator.pop(context);
+              }),
            ListTile(
             leading: const Icon(Icons.password),
             title: Text("Passwords",
@@ -94,15 +108,19 @@ class _HomePageState extends State<HomePage> {
                   fontSize: 17,
                   
                 )),
-            
-            onTap:()=>Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const PasswordsPage(),
+            // onTap: () => Navigator.of(context).push(
+            //   MaterialPageRoute(
+            //     builder: (context) => const PasswordsPage(),
+            //   ),
+            onTap: () {
+              setState(
+                () {
+                  page = false;
+                },
+              );
+              Navigator.pop(context);
+            },
                       ),
-                    ) ,
-          ),
-         
-           
           const SizedBox(
             height: 460,
           ),
@@ -119,11 +137,7 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       )),
-      body: Center(
-        child: Column(
-          
-        ),
-      ),
+      body: page ? NotesPage() : PasswordsPage(),
     );
   }
 }
