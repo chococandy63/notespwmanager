@@ -24,7 +24,7 @@ class _ViewNoteState extends State<ViewNote> {
   final _controllerDescription=TextEditingController();
   final _controllerCreated=TextEditingController();
 
-
+  
  
 
   @override
@@ -59,7 +59,7 @@ class _ViewNoteState extends State<ViewNote> {
                 width: 20,
               ),
               ElevatedButton(
-                  onPressed: modify,
+                  onPressed: update,
                   child: const Icon(
                     Icons.edit_note,
                     size: 24,
@@ -99,7 +99,7 @@ class _ViewNoteState extends State<ViewNote> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "$widget.data['title']",
+                  "${widget.data['title']}",
                   style: GoogleFonts.mansalva(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -141,7 +141,10 @@ class _ViewNoteState extends State<ViewNote> {
     );
 
 }
-   void modify() async {
+   void update() async {
+    
+
+
     String tit="$widget.data['title']";
     setState(() {
       tit=_controllerTitle.text;

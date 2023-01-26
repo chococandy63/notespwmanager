@@ -11,6 +11,9 @@ GoogleSignIn googleSignIn = GoogleSignIn();
 FirebaseAuth auth = FirebaseAuth.instance;
 CollectionReference users = FirebaseFirestore.instance.collection('users');
 
+String accname='';
+String accemail='';
+String accimage='';
 
 Future signInWithGoogle(BuildContext context) async {
   final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
@@ -37,6 +40,11 @@ Future signInWithGoogle(BuildContext context) async {
       'photoUrl': googleSignInAccount.photoUrl,
       'email': googleSignInAccount.email,
     };
+
+      accname=googleSignInAccount.displayName!;
+      accemail=googleSignInAccount.email;
+      accimage=googleSignInAccount.photoUrl!;
+    
     //if the user already exists(or created their acc on firebase)
     users.doc(user?.uid).get().then((doc) {
       if (doc.exists) {
