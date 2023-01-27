@@ -52,8 +52,6 @@ class _NotesPageState extends State<NotesPage> {
             color: Color.fromARGB(255, 92, 22, 45),
           ),
         ),
-     
-        
         body: FutureBuilder<QuerySnapshot>(
           future: ref.get(),
           builder: (context, snapshot) {
@@ -81,34 +79,39 @@ class _NotesPageState extends State<NotesPage> {
                           )
                           .then((value) => setState(() {}));
                     },
-                    child: Card(
-                        color: bg,
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "${data['title']}",
-                                  style: GoogleFonts.mansalva(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                Container(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                      //using intl plugin to format date and time:
-                                      formattedTime,
+                    child: Column(
+                      children: [
+                        
+                        Card(
+                            color: bg,
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "${data['title']}",
                                       style: GoogleFonts.mansalva(
-                                        fontSize: 12,
+                                        fontSize: 20,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
                                       ),
-                                    ))
-                              ]),
-                        )),
+                                    ),
+                                    Container(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          //using intl plugin to format date and time:
+                                          formattedTime,
+                                          style: GoogleFonts.mansalva(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                          ),
+                                        ))
+                                  ]),
+                            )),
+                      ],
+                    ),
                   );
                 },
               );

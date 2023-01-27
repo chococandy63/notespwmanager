@@ -28,6 +28,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  bool page = true;
+  @override
+  void initState() {
+    page = true;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,8 +42,13 @@ class _HomePageState extends State<HomePage> {
           automaticallyImplyLeading: true,
           title: Row(
             children: [
-              Text(
-                'HOME PAGE',
+              page?Text(
+                'Notes',
+                style: GoogleFonts.mansalva(
+                  fontSize: 32,
+                ),
+              ):Text(
+                'Passwords',
                 style: GoogleFonts.mansalva(
                   fontSize: 32,
                 ),
@@ -54,76 +66,73 @@ class _HomePageState extends State<HomePage> {
               color: Color.fromARGB(255, 167, 76, 106),
             ),
             currentAccountPicture: CircleAvatar(
-              backgroundColor: Colors.white,  
-               foregroundImage: NetworkImage(accimage),
-               child: Text(
+              backgroundColor: Colors.white,
+              foregroundImage: NetworkImage(accimage),
+              child: Text(
                 accname[0],
                 style: GoogleFonts.mansalva(
                   fontSize: 40,
                 ),
               ),
-               
             ),
             accountName: Text(accname,
-            overflow: TextOverflow.ellipsis,
+                overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.mansalva(
                   fontSize: 18,
                 )),
             accountEmail: Text(accemail,
-            overflow: TextOverflow.ellipsis,
+                overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.mansalva(
                   fontSize: 18,
                 )),
           ),
           ListTile(
-            title: Text("Notes",
-                style: GoogleFonts.mansalva(
-                  fontSize: 17,
-                )),
-            leading: const Icon(Icons.notes),
-            onTap: ()=>Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const NotesPage(),
-                      ),
-                    )
-          ),
-           ListTile(
+              title: Text("Notes",
+                  style: GoogleFonts.mansalva(
+                    fontSize: 17,
+                  )),
+              leading: const Icon(Icons.notes),
+              onTap: () {
+                setState(
+                  () {
+                    page = true;
+                  },
+                );
+                Navigator.pop(context);
+              }),
+          ListTile(
             leading: const Icon(Icons.password),
             title: Text("Passwords",
                 style: GoogleFonts.mansalva(
                   fontSize: 17,
-                  
                 )),
-            
-            onTap:()=>Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const PasswordsPage(),
-                      ),
-                    ) ,
+            onTap: () {
+              setState(
+                () {
+                  page = false;
+                },
+              );
+              Navigator.pop(context);
+            },
           ),
-         
-           
           const SizedBox(
             height: 460,
           ),
-           const Divider(
+          const Divider(
             color: Colors.white,
             thickness: 1,
           ),
-          ListTile(title:Text("Log Out",style: GoogleFonts.mansalva(
+          ListTile(
+            title: Text("Log Out",
+                style: GoogleFonts.mansalva(
                   fontSize: 17,
                 )),
-                leading: const Icon(Icons.logout),
-                onTap: ()=>_signOut(),
-          
+            leading: const Icon(Icons.logout),
+            onTap: () => _signOut(),
           )
         ],
       )),
-      body: Center(
-        child: Column(
-          
-        ),
-      ),
+      body: page ?  const NotesPage() : const PasswordsPage(),
     );
   }
 }

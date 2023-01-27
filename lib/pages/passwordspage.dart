@@ -80,16 +80,16 @@ class _PasswordsPageState extends State<PasswordsPage> {
           color: Colors.pinkAccent,
         ),
       ),
-      appBar: AppBar(
-        title: Text(
-          'PASSWORDS',
-          style: GoogleFonts.mansalva(
-            fontSize: 32,
-          ),
-        ),
-        elevation: 0.0,
-        backgroundColor: const Color.fromARGB(5, 5, 5, 5),
-      ),
+      // appBar: AppBar(
+      //   title: Text(
+      //     'PASSWORDS',
+      //     style: GoogleFonts.mansalva(
+      //       fontSize: 32,
+      //     ),
+      //   ),
+      //   elevation: 0.0,
+      //   backgroundColor: const Color.fromARGB(5, 5, 5, 5),
+      // ),
     );
   }
 }

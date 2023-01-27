@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:notes/pages/home.dart';
 import 'package:notes/pages/notepage.dart';
 
 class ViewNote extends StatefulWidget {
@@ -44,7 +45,7 @@ class _ViewNoteState extends State<ViewNote> {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => const NotesPage(),
+                      builder: (context) => const HomePage(),
                     ),
                   );
                 },
