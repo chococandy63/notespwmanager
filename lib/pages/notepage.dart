@@ -24,10 +24,10 @@ class _NotesPageState extends State<NotesPage> {
       .collection('notes');
 
   List<Color> myColors = [
-    const Color.fromARGB(255, 172, 245, 150),
-    const Color.fromARGB(255, 163, 100, 163),
-    const Color.fromARGB(255, 154, 203, 243),
-    const Color.fromARGB(255, 213, 203, 155),
+    const Color.fromARGB(120, 172, 245, 150),
+    const Color.fromARGB(120, 163, 100, 163),
+    const Color.fromARGB(120, 154, 203, 243),
+    const Color.fromARGB(120, 213, 203, 155),
   ];
 
   @override
@@ -84,6 +84,7 @@ class _NotesPageState extends State<NotesPage> {
                         
                         Card(
                             color: bg,
+                            
                             child: Padding(
                               padding: const EdgeInsets.all(15.0),
                               child: Column(

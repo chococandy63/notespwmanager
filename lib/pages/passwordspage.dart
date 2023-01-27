@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:notes/pages/addnote.dart';
 import 'package:notes/pages/home.dart';
 import 'package:notes/pages/viewnote.dart';
+import 'package:wc_form_validators/wc_form_validators.dart';
 
 class PasswordsPage extends StatefulWidget {
   const PasswordsPage({super.key});
@@ -17,48 +18,107 @@ class PasswordsPage extends StatefulWidget {
 }
 
 class _PasswordsPageState extends State<PasswordsPage> {
+  
+bool passwordVisible= false;
+  @override
+  void initState() {
+    passwordVisible = true;
+    super.initState();
+  }
+
   void addPassword() {
     showDialog(
       context: context,
       builder: (context) => Theme(
         data: ThemeData(),
-        child: SimpleDialog(title: const Text("ADD DATA"), children: <Widget>[
+        child: SimpleDialog(children: <Widget>[
           Form(
               child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextFormField(
-                decoration: const InputDecoration(
+                validator: Validators.required('Type is required!'),
+                decoration: InputDecoration(
                   labelText: "Select Type",
-                 
-            
+                  labelStyle: GoogleFonts.mansalva(
+                    fontSize: 20,
+                  ),
                 ),
-               
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 15.0),
                 child: TextFormField(
-                  decoration: const InputDecoration(
-                  labelText: "Enter Username/email",
-                 
-            
-                ),
-                
+                  validator: Validators.compose([
+      Validators.required('Username/email is required'),
+      Validators.minLength(1, 'UserName/Email cannot be less than 1 characters'),
+      Validators.maxLength(40, 'UserName/Email cannot be greater than 40 characters'),
+    ]),
+                  
+                  
+                  decoration: InputDecoration(
+                    labelText: "Enter Username/email",
+                    labelStyle: GoogleFonts.mansalva(
+                      fontSize: 20,
+                    ),
+                  ),
                 ),
               ),
               Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: TextFormField(
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Enter password',
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: TextFormField(
+                  obscureText: passwordVisible,
+                   validator: Validators.compose([
+                    Validators.required('Password is required'),
+                    Validators.patternString(
+                        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
+                        'Invalid Password')
+                  ]),
+                  decoration: InputDecoration(
+                    border: const UnderlineInputBorder(),
+                    labelText: 'Enter password',
+                    
+                    helperText: "Password must contain special\ncharacter",
+                    helperStyle: const TextStyle(color: Colors.green),
+                    labelStyle: GoogleFonts.mansalva(
+                      fontSize: 20,
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(passwordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off),
+                          
+                      onPressed: () {
+                      
+                        setState(
+                          () {
+                            passwordVisible = !passwordVisible;
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  keyboardType: TextInputType.visiblePassword,
+                 textInputAction: TextInputAction.done,
+                ),
               ),
-            ),
-          ),
-          
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 15.0),
-                child: OutlinedButton(onPressed: () {}, child: Text("ADD")),
+                child: ElevatedButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                            const Color.fromARGB(255, 181, 84, 116)),
+                        padding: MaterialStateProperty.all(
+                            const EdgeInsets.symmetric(
+                          vertical: 10,
+                        ))),
+                    child: Text(
+                      "ADD",
+                      style: GoogleFonts.mansalva(
+                        fontSize: 20,
+                      ),
+                    )),
               ),
             ],
           ))
@@ -66,9 +126,8 @@ class _PasswordsPageState extends State<PasswordsPage> {
       ),
     );
   }
-
-  @override
-  Widget build(BuildContext context) {
+   @override
+     Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.grey,
@@ -80,16 +139,6 @@ class _PasswordsPageState extends State<PasswordsPage> {
           color: Colors.pinkAccent,
         ),
       ),
-      // appBar: AppBar(
-      //   title: Text(
-      //     'PASSWORDS',
-      //     style: GoogleFonts.mansalva(
-      //       fontSize: 32,
-      //     ),
-      //   ),
-      //   elevation: 0.0,
-      //   backgroundColor: const Color.fromARGB(5, 5, 5, 5),
-      // ),
     );
   }
 }
