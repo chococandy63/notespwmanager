@@ -6,13 +6,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:notes/pages/addnote.dart';
-import 'package:notes/pages/home.dart';
-import 'package:notes/pages/viewnote.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
-
 
 class PasswordsPage extends StatefulWidget {
   const PasswordsPage({super.key});
@@ -22,10 +18,9 @@ class PasswordsPage extends StatefulWidget {
 }
 
 class _PasswordsPageState extends State<PasswordsPage> {
-  late String type;
-  late String user_email;
-  late String pwd;
-
+  late String type = '';
+  late String user_email = '';
+  late String pwd = '';
   CollectionReference ref = FirebaseFirestore.instance
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -37,8 +32,6 @@ class _PasswordsPageState extends State<PasswordsPage> {
     passwordVisible = true;
     super.initState();
   }
-
-
 
   void addPassword() async {
     showDialog(
@@ -146,7 +139,8 @@ class _PasswordsPageState extends State<PasswordsPage> {
       ),
     );
   }
-    void add() async {
+
+  void add() async {
     var data = {
       'type': type,
       'username/email': user_email,
@@ -155,10 +149,7 @@ class _PasswordsPageState extends State<PasswordsPage> {
 
     ref.add(data);
     Navigator.pop(context);
-    setState(() {
-      
-    });
-
+    setState(() {});
   }
 
   @override
@@ -181,40 +172,50 @@ class _PasswordsPageState extends State<PasswordsPage> {
               return ListView.builder(
                   itemCount: snapshot.data?.docs.length,
                   itemBuilder: (context, index) {
-                    MaterialAccentColor bg = Colors.blueAccent;
+                    Color bg = Color.fromARGB(255, 121, 156, 215);
                     Map? data = snapshot.data?.docs[index].data() as Map?;
                     return Card(
                       color: bg,
                       child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Column(children: [
-                          Text(
-                            "${data![type]}",
-                            style: GoogleFonts.mansalva(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
+                        child: Row(
+                          children: <Widget>[
+                            const Icon(
+                              color: Color.fromARGB(255, 8, 30, 47),
+                              Icons.lock,
                             ),
-                          ),
-                          Text(
-                            "${data[user_email]}",
-                            style: GoogleFonts.mansalva(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                            SizedBox(
+                              width: 20,
                             ),
-                          ),
-                          Text(
-                            "${data[pwd]}",
-                            style: GoogleFonts.mansalva(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-
-
-                        ]),
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "${data!['type']}",
+                                    style: GoogleFonts.mansalva(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  Text(
+                                    "${data['username/email']}",
+                                    style: GoogleFonts.mansalva(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  Text(
+                                    "${data['password']}",
+                                    style: GoogleFonts.mansalva(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ]),
+                          ],
+                        ),
                       ),
                     );
                   });
