@@ -119,8 +119,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       ElevatedButton(
                         onPressed: () async {
-                          {
-                            _login();
+                          { 
+                  _signInWithEmailAndPassword();
                           }
                         },
                         style: ButtonStyle(
@@ -186,6 +186,12 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ));
   }
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   void _register() async {
     final User? user = (await _auth.createUserWithEmailAndPassword(
@@ -213,5 +219,34 @@ class _LoginPageState extends State<LoginPage> {
     ));
   }
 
-  void _login() {}
+  void _signInWithEmailAndPassword() async {
+  final User? user = (await _auth.signInWithEmailAndPassword(
+    email: _emailController.text,
+    password: _passwordController.text,
+  )).user;
+  
+  if (user != null) {
+    setState(() {
+      regStatus = RegistrationStatus.completed;
+      _userEmail = user.email!;
+    });
+  } else {
+    setState(() {
+      regStatus = RegistrationStatus.failed;
+    });
+  }
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      // ignore: unnecessary_null_comparison
+      content: Text(regStatus == RegistrationStatus.pending
+          ? ' '
+          : (regStatus == RegistrationStatus.completed
+              ? 'Successfully LogIn' + _userEmail 
+              : 'LogIn failed')),
+    ));
+    regStatus==RegistrationStatus.completed?Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => HomePage(),
+        ),
+      ):const Text('Login failed');
+}
 }
