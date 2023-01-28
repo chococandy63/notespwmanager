@@ -17,10 +17,16 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
+enum RegistrationStatus {
+  pending,
+  completed,
+  failed,
+}
+
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  late bool _success;
+  late RegistrationStatus regStatus = RegistrationStatus.pending;
   late String _userEmail;
 
   @override
@@ -113,8 +119,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       ElevatedButton(
                         onPressed: () async {
-                          {
-                            _login();
+                          { 
+                  _signInWithEmailAndPassword();
                           }
                         },
                         style: ButtonStyle(
@@ -140,12 +146,6 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   )),
-              SnackBar(
-                // ignore: unnecessary_null_comparison
-                content: Text( _success==null?'':(
-                         _success?'Successfully registered'+_userEmail
-                        : 'Registration failed')),
-              ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
@@ -186,6 +186,12 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ));
   }
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   void _register() async {
     final User? user = (await _auth.createUserWithEmailAndPassword(
@@ -195,15 +201,52 @@ class _LoginPageState extends State<LoginPage> {
         .user;
     if (user != null) {
       setState(() {
-        _success = true;
+        regStatus = RegistrationStatus.completed;
         _userEmail = user.email!;
       });
     } else {
       setState(() {
-        _success = true;
+        regStatus = RegistrationStatus.failed;
       });
     }
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      // ignore: unnecessary_null_comparison
+      content: Text(regStatus == RegistrationStatus.pending
+          ? ' '
+          : (regStatus == RegistrationStatus.completed
+              ? 'Successfully registered' + _userEmail
+              : 'Registration failed')),
+    ));
   }
 
-  void _login() {}
+  void _signInWithEmailAndPassword() async {
+  final User? user = (await _auth.signInWithEmailAndPassword(
+    email: _emailController.text,
+    password: _passwordController.text,
+  )).user;
+  
+  if (user != null) {
+    setState(() {
+      regStatus = RegistrationStatus.completed;
+      _userEmail = user.email!;
+    });
+  } else {
+    setState(() {
+      regStatus = RegistrationStatus.failed;
+    });
+  }
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      // ignore: unnecessary_null_comparison
+      content: Text(regStatus == RegistrationStatus.pending
+          ? ' '
+          : (regStatus == RegistrationStatus.completed
+              ? 'Successfully LogIn' + _userEmail 
+              : 'LogIn failed')),
+    ));
+    regStatus==RegistrationStatus.completed?Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => HomePage(),
+        ),
+      ):const Text('Login failed');
+}
 }
