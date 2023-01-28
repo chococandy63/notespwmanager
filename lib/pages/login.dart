@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notes/controller/googleauth.dart';
 import 'package:notes/pages/home.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:wc_form_validators/wc_form_validators.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final User? user = _auth.currentUser;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -12,6 +18,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  late bool _success;
+  late String _userEmail;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,14 +39,20 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-              
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 child: TextFormField(
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
+                  controller: _emailController,
+                  validator: (value) => EmailValidator.validate(value!)
+                      ? null
+                      : "Please enter a valid email",
+                  decoration: InputDecoration(
+                    border: const UnderlineInputBorder(),
                     labelText: 'Enter email id',
+                    labelStyle: GoogleFonts.mansalva(
+                      fontSize: 20,
+                    ),
                   ),
                 ),
               ),
@@ -43,35 +60,92 @@ class _LoginPageState extends State<LoginPage> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 child: TextFormField(
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    border: const UnderlineInputBorder(),
                     labelText: 'Enter password',
+                    labelStyle: GoogleFonts.mansalva(
+                      fontSize: 20,
+                    ),
                   ),
+                  validator: Validators.compose([
+                    Validators.required('Password is required'),
+                    Validators.patternString(
+                        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
+                        'Invalid Password')
+                  ]),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 150.0, vertical: 20),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                            const Color.fromARGB(255, 181, 84, 116)),
-                        
-                      ),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 50.0, vertical: 10),
                   child: Row(
-                    children: const [
-                      Text("LogIn"),
-                      SizedBox(
-                          width: 10,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () async {
+                          {
+                            _register();
+                          }
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              const Color.fromARGB(255, 181, 84, 116)),
                         ),
-                      Icon(
-                        Icons.login,
+                        child: Row(
+                          children: [
+                            Text(
+                              "Register",
+                              style: GoogleFonts.mansalva(
+                                fontSize: 20,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Icon(
+                              Icons.login,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      ElevatedButton(
+                        onPressed: () async {
+                          {
+                            _login();
+                          }
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              const Color.fromARGB(255, 181, 84, 116)),
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              "LogIn",
+                              style: GoogleFonts.mansalva(
+                                fontSize: 20,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Icon(
+                              Icons.login,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
-                  ),
-                )
-                ),
-              
+                  )),
+              SnackBar(
+                // ignore: unnecessary_null_comparison
+                content: Text( _success==null?'':(
+                         _success?'Successfully registered'+_userEmail
+                        : 'Registration failed')),
+              ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
@@ -112,4 +186,24 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ));
   }
+
+  void _register() async {
+    final User? user = (await _auth.createUserWithEmailAndPassword(
+      email: _emailController.text,
+      password: _passwordController.text,
+    ))
+        .user;
+    if (user != null) {
+      setState(() {
+        _success = true;
+        _userEmail = user.email!;
+      });
+    } else {
+      setState(() {
+        _success = true;
+      });
+    }
+  }
+
+  void _login() {}
 }
