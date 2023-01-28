@@ -18,13 +18,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  late bool _success=false;
-  late String _userEmail='';
-
-  
+  late bool _success;
+  late String _userEmail;
 
   @override
   Widget build(BuildContext context) {
@@ -81,40 +78,72 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 140.0, vertical: 10),
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      {
-                        _register();
-                      }
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                          const Color.fromARGB(255, 181, 84, 116)),
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          "LogIn",
-                          style: GoogleFonts.mansalva(
-                            fontSize: 20,
-                          ),
+                      horizontal: 50.0, vertical: 10),
+                  child: Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () async {
+                          {
+                            _register();
+                          }
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              const Color.fromARGB(255, 181, 84, 116)),
                         ),
-                        const SizedBox(
-                          width: 10,
+                        child: Row(
+                          children: [
+                            Text(
+                              "Register",
+                              style: GoogleFonts.mansalva(
+                                fontSize: 20,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Icon(
+                              Icons.login,
+                            ),
+                          ],
                         ),
-                        const Icon(
-                          Icons.login,
+                      ),
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      ElevatedButton(
+                        onPressed: () async {
+                          {
+                            _login();
+                          }
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              const Color.fromARGB(255, 181, 84, 116)),
                         ),
-                      ],
-                    ),
+                        child: Row(
+                          children: [
+                            Text(
+                              "LogIn",
+                              style: GoogleFonts.mansalva(
+                                fontSize: 20,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Icon(
+                              Icons.login,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   )),
-              Container(
-                alignment: Alignment.center,
-                child: Text(_success == null
-                    ? ''
-                    : (_success
-                        ? 'Successfully registered'+ _userEmail
+              SnackBar(
+                // ignore: unnecessary_null_comparison
+                content: Text( _success==null?'':(
+                         _success?'Successfully registered'+_userEmail
                         : 'Registration failed')),
               ),
               Padding(
@@ -157,6 +186,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ));
   }
+
   void _register() async {
     final User? user = (await _auth.createUserWithEmailAndPassword(
       email: _emailController.text,
@@ -174,4 +204,6 @@ class _LoginPageState extends State<LoginPage> {
       });
     }
   }
+
+  void _login() {}
 }
