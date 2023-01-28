@@ -17,10 +17,16 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
+enum RegistrationStatus {
+  pending,
+  completed,
+  failed,
+}
+
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  late bool _success;
+  late RegistrationStatus regStatus = RegistrationStatus.pending;
   late String _userEmail;
 
   @override
@@ -140,12 +146,6 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   )),
-              SnackBar(
-                // ignore: unnecessary_null_comparison
-                content: Text( _success==null?'':(
-                         _success?'Successfully registered'+_userEmail
-                        : 'Registration failed')),
-              ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
@@ -195,14 +195,22 @@ class _LoginPageState extends State<LoginPage> {
         .user;
     if (user != null) {
       setState(() {
-        _success = true;
+        regStatus = RegistrationStatus.completed;
         _userEmail = user.email!;
       });
     } else {
       setState(() {
-        _success = true;
+        regStatus = RegistrationStatus.failed;
       });
     }
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      // ignore: unnecessary_null_comparison
+      content: Text(regStatus == RegistrationStatus.pending
+          ? ' '
+          : (regStatus == RegistrationStatus.completed
+              ? 'Successfully registered' + _userEmail
+              : 'Registration failed')),
+    ));
   }
 
   void _login() {}
