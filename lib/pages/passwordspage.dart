@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
+//import 'package:flutter_string_encryption/flutter_string_encryption.dart';
+
+
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -18,6 +21,13 @@ class PasswordsPage extends StatefulWidget {
 }
 
 class _PasswordsPageState extends State<PasswordsPage> {
+  // TextEditingController pass = TextEditingController();
+  // var key = "null";
+  // late String encryptedS,decryptedS;
+  // var password = "null";
+  // late PlatformStringCryptor cryptor;
+
+
   late String type = '';
   late String user_email = '';
   late String pwd = '';
@@ -80,6 +90,7 @@ class _PasswordsPageState extends State<PasswordsPage> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 child: TextFormField(
+                  //controller: pass,
                   onChanged: (val) {
                     pwd = val;
                   },
@@ -185,7 +196,7 @@ class _PasswordsPageState extends State<PasswordsPage> {
                               color: Color.fromARGB(255, 8, 30, 47),
                               Icons.lock,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 20,
                             ),
                             Column(
@@ -227,4 +238,24 @@ class _PasswordsPageState extends State<PasswordsPage> {
           },
         ));
   }
+
+  // void Encrypt() async{
+  //   cryptor = PlatformStringCryptor();
+  //   final salt = await cryptor.generateSalt();
+  //   password = pass.text;
+  //   key = await cryptor.generateKeyFromPassword(password, salt);
+  // // here pass the password entered by user and the key
+  //   encryptedS = await cryptor.encrypt(password, key);
+  //   print(encryptedS);
+  // }
+// method to decrypt String Password
+  // void Decrypt() async{
+  //   try{
+  //     //here pass encrypted string and the key to decrypt it 
+  //     decryptedS = await cryptor.decrypt(encryptedS, key);
+  //     print(decryptedS);
+  //   }on MacMismatchException{
+  //   }
+  // }
+
 }

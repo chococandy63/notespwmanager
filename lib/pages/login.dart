@@ -7,7 +7,7 @@ import 'package:wc_form_validators/wc_form_validators.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
-final User? user = _auth.currentUser;
+final User user = _auth.currentUser!;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -26,8 +26,13 @@ enum RegistrationStatus {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+<<<<<<< Updated upstream
   late RegistrationStatus regStatus = RegistrationStatus.pending;
   late String _userEmail;
+=======
+  late bool _success=false;
+  late String _userEmail='';
+>>>>>>> Stashed changes
 
   @override
   Widget build(BuildContext context) {
